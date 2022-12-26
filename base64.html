@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Base64编码/解码</title>
+    <script src="./src/js/base64.js"></script>
+    <link href="./src/css/base64.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <center class="content">
+      <div class="code_note">
+        <div class="code_title">源字符：</div>
+        <textarea name="src" id="src" cols="180" rows="6"></textarea>
+      </div>
+      <div class="code_btn">
+        <input
+          onclick="doEncode();"
+          type="button"
+          value="编码"
+          name="encode"
+          class="button"
+        />
+        <input
+          onclick="doDecode();"
+          type="button"
+          value="解码"
+          name="decode"
+          class="button"
+        />
+      </div>
+      <div class="code_note">
+        <div class="code_title">结果：</div>
+        <textarea name="dest" id="dest" cols="180" rows="6"></textarea>
+      </div>
+    </center>
+  </body>
+</html>

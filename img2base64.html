@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="./src/css/bootstrap3.5min.css" rel="stylesheet" type="text/css" />
+    <link href="./src/css/img2base64.css" rel="stylesheet" type="text/css" />
+    
+    <script src="./src/js/jquery-3.6.3.min.js" type="text/javascript"></script>
+    <script src="./js/bootstrap3.5min.js" type="text/javascript"></script>
+    <script src="./src/js/img2base64.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col10main">
+          <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="panel">
+                <form id="form1" class="form-horizontal" method="post">
+                  <div class="form-group">
+                    <div class="col-sm-6">
+                      <textarea
+                        id="result"
+                        name="result"
+                        class="form-control"
+                        rows="15"
+                        placeholder="
+1、图片执行Base64编码结果
+2、在此输入标准base64图片，点击【追加img标签】也可还原图片"
+                      ></textarea>
+                    </div>
+                    <div class="col-sm-6">
+                      <p id="img_area"></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-12 btns">
+                      <input
+                        type="file"
+                        id="demo_input"
+                        value="选择图片"
+                        class="btn btn-default"
+                      />
+                      <input
+                        type="button"
+                        onclick="imgfun();"
+                        value="<img>"
+                        class="btn btn-info"
+                      />
+                      <input
+                        type="button"
+                        onclick="copyHandler();"
+                        value="复制"
+                        class="btn btn-copy btn-success"
+                      />
+                      <input
+                        type="button"
+                        onclick="empty();"
+                        value="清空"
+                        class="btn btn-danger"
+                      />
+                      <input
+                        type="button"
+                        onclick="readFile();"
+                        value="还原"
+                        class="btn btn-primary"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <div id="demo1" class="in collapse bs-docs-demoexample">
+                <h5 style="color: #66be8c;">
+                  图片大于2M
+                </h5>
+                <h5>
+                  <div class="code">
+                    转换会缓慢一些，请耐心等待5秒钟
+                  </div>
+                </h5>
+                <h5 style="color: #66be8c;">
+                  CSS中使用
+                </h5>
+                <h5>
+                  <div class="code">
+                    <span>.class {</span>
+                    <span style="color: #009;">background-image:url("</span>
+                    
+                    <span style="color: rgb(255, 85, 0);">
+                      ....
+                    </span>
+                    <span style="color: #009;">"); }</span>
+                  </div>
+                </h5>
+                <h5 style="color: #66be8c;">
+                  HTML中使用
+                </h5>
+                <h5>
+                  <div class="code">
+                    <span style="color: #009;">
+                      &lt;img width="40" height="30" src="
+                      <span style="color: rgb(255, 85, 0);">
+                        ....
+                      </span>
+                      " /&gt;
+                    </span>
+                  </div>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
