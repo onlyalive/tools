@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="./src/css/common.css" rel="stylesheet" />
+    <link href="./src/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="./src/css/jquery.jsonview.css" rel="stylesheet" />
+    <link href="./src/css/bootstrap3.5min.css" rel="stylesheet" />
+    <link href="./src/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="./src/css/postman.css" rel="stylesheet" />
+  </head>
+  <body>
+    <input id="id-page-name" type="hidden" value="debug" />
+    <div
+      class="h pt10 min-w900"
+      id="content"
+      style="width: 90vw; margin: 0 auto; display: table;"
+    >
+      <div
+        id="left"
+        class="newh m0 fl p0 shadow ofy-a ui-resizable ui-resizable-autohide"
+        style="width: 25vw; overflow-x: hidden; position: fixed;"
+      >
+        <!-- 搜索 -->
+        <div
+          id="id-search"
+          class="mt50 h35 m10 mb0 b1 r15 of-h input-group pl5"
+        >
+          <i class="iconfont group-addon w15 h color-adorn fb"></i>
+          <input
+            type="text"
+            id="id-search-text"
+            autocomplete="off"
+            class="form-control b0 h"
+            placeholder="输入后点击回车搜索"
+          />
+          <i class="iconfont group-addon w15 h cursor" id="id-clear-search">
+            
+          </i>
+          &nbsp;&nbsp;
+        </div>
+        <!--模块、历史记录切换标签-->
+        <div class="bb1 h45 f14 C555 pt5">
+          <div
+            class="fl w-50 tc h40 lh40 cursor"
+            id="modules-title"
+            title="Module"
+          >
+            <i class="iconfont f16"></i>
+            &nbsp;&nbsp;
+            <span>模块</span>
+          </div>
+          <div
+            class="fl w-50 tc h40 lh40 cursor bb2"
+            id="historys-title"
+            title="History"
+          >
+            <i class="iconfont f16"></i>
+            &nbsp;&nbsp;
+            <span>历史记录</span>
+          </div>
+        </div>
+        <!--历史记录 -->
+        <div id="historys" class="w"></div>
+        <!--模块-->
+        <div
+          id="modules"
+          class="panel-group mb0 none"
+          role="tablist"
+          style="width: 98%;"
+        ></div>
+        <div
+          class="ui-resizable-handle ui-resizable-e"
+          style="z-index: 90; display: none;"
+        ></div>
+      </div>
+
+      <div
+        id="right"
+        class="shadow BGFFF m0 fr p0 fl newh"
+        style="width: 65vw;"
+      >
+        <!--参数、头、相应结果-->
+        <div class="w rel">
+          <input type="hidden" id="interface-id" value="-1" />
+          <input type="hidden" id="module-id" value="-1" />
+
+          <div class="pl10 pr10">
+            <!-- 1.接口名 -->
+            <div
+              class="input-group no-radius"
+              id="id-env-group"
+              style="width: 100%;"
+            >
+              <span class="w10 group-addon bl3"></span>
+              <input
+                type="text"
+                style="width: 100%; margin-top: 6px;"
+                class="form-control r0 f16 color-main h37"
+                id="interface-name"
+                autocomplete="off"
+                placeholder="请输入接口名"
+              />
+              <!-- 环境已隐藏 -->
+              <span class="w10 group-addon"></span>
+              <div class="dropdown group-addon h37 no-radius">
+                <a
+                  id="new-interface"
+                  target="_blank"
+                  class="btn btn-menu btn-sm fr mt5"
+                  style="background-color: #656f85;"
+                >
+                  <i class="iconfont mr5 mt-1"></i>
+                  <span>新建接口</span>
+                </a>
+                <select style="width: 0; border: none;" id="sendType">
+                  <option value="1">前端请求</option>
+                  <option value="2">后端转发</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2.接口名 -->
+          <table class="w mt10">
+            <tbody>
+              <tr>
+                <td class="w100 pr10 pl10">
+                  <select
+                    class="form-control group-addon w100 h37 dis-in-tab BGF5 cursor"
+                    id="method"
+                  >
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                  </select>
+                </td>
+                <td class="pr10">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control r5 h37"
+                      id="url"
+                      autocomplete="off"
+                      placeholder="请输入接口地址"
+                    />
+                    <span class="w10 group-addon"></span>
+
+                    <span
+                      class="btn group-addon btn-main ml10 f12"
+                      id="send"
+                      style="padding: 5px;"
+                    >
+                      <span class="pl10">发送</span>
+                      <i class="iconfont f16 mr5 mt-2"></i>
+                    </span>
+
+                    <span class="w10 group-addon"></span>
+
+                    <span
+                      class="btn btn-adorn group-addon no-right-radius h37 f12"
+                      id="save-interface"
+                      style="padding: 5px 0 5px 5px;"
+                    >
+                      保存
+                    </span>
+
+                    <div class="dropdown group-addon h37">
+                      <button
+                        type="button"
+                        class="btn btn-adorn dropdown-toggle no-left-radius h37 pl5 pr5ß"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="iconfont CFFF"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a
+                            id="save-as-interface"
+                            class="pl10 pr10 cursor f12"
+                          >
+                            另存为
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="h30 mt20 shadow-b pl10 C555">
+            <div
+              class="tabs menu-title adorn-bb2"
+              data-stage="headers-div"
+            >
+              <i class="iconfont color-adorn"></i>
+              &nbsp;
+              <span>请求头</span>
+            </div>
+            <div class="tabs menu-title" data-stage="params-div">
+              <i class="iconfont color-adorn"></i>
+              &nbsp;
+              <span>参数</span>
+            </div>
+            <div
+              class="tabs menu-title"
+              data-stage="response-body"
+            >
+              <i class="iconfont color-main"></i>
+              &nbsp;
+              <span>响应体</span>
+            </div>
+            <div class="tabs menu-title" data-stage="response-header">
+              <i class="iconfont color-main"></i>
+              &nbsp;
+              <span>响应头</span>
+            </div>
+            <div class="tabs menu-title" data-stage="response-cookie">
+              <i class="iconfont color-main"></i>
+              &nbsp;
+              <span>Cookie</span>
+            </div>
+          </div>
+
+          <!--请求头-->
+          <div
+            class="p15"
+            id="headers-div"
+            style="padding-top: 6px !important;"
+          >
+            <table class="params-headers-table f12 w" id="headers-table">
+              <thead
+                style="
+                  background-color: #f5f5f5;
+                  height: 30px;
+                  border-bottom: 1px solid #e0e0e0 !important;
+                "
+              >
+                <tr>
+                  <td class="p5" style="width: 30%;">
+                    &nbsp;Key
+                  </td>
+                  <td class="p5" colspan="2">
+                    Value
+                    <a
+                      class="bulk-edit fr mr20 color-main cursor"
+                      crap-data-value="headers"
+                    >
+                      批量编辑
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="last">
+                  <td>
+                    <input type="text" class="form-control" data-stage="key" />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      data-stage="value"
+                    />
+                  </td>
+                  <td class="w20">
+                    <i class="iconfont cursor color-adorn"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div id="headers-bulk-edit-div" class="f12 none">
+              <a
+                class="key-value-edit fr mr20 color-main cursor fw-300"
+                crap-data-value="headers"
+              >
+                单个编辑
+              </a>
+              <textarea
+                id="headers-bulk"
+                class="form-control w BGFFF min-h100 max-w"
+                placeholder="key:value"
+              ></textarea>
+            </div>
+          </div>
+          <!--请求头-->
+
+          <!--参数-->
+          <div id="params-div" class="none">
+            <div id="content-type" class="f12 p10 C999 pl20 none">
+              <div class="fl">
+                <label>
+                  <input
+                    type="radio"
+                    name="param-type"
+                    checked=""
+                    id="param-type-value"
+                    value="application/x-www-form-urlencoded;charset=UTF-8"
+                  />
+                  x-www-form-urlencoded;charset=UTF-8&nbsp;&nbsp;&nbsp;
+                </label>
+              </div>
+              <div class="fl">
+                <label>
+                  <input
+                    type="radio"
+                    name="param-type"
+                    crap-data="customer"
+                    id="customer-type-value"
+                    value="application/json"
+                  />
+                  <span>自定义格式</span>
+                </label>
+                &nbsp;&nbsp;&nbsp;
+              </div>
+              <div class="fl none" id="customer-type">
+                <select class="form-control w150 fl table-input">
+                  <option value="application/json">application/json</option>
+                  <option value="text/plain">text/plain</option>
+                  <option value="application/xml">application/xml</option>
+                </select>
+                &nbsp;&nbsp;
+                <button
+                  type="button"
+                  class="response-menu btn btn-default btn-xs fw-300"
+                  id="format-send-pretty"
+                >
+                  格式化
+                </button>
+              </div>
+              <div class="cb"></div>
+            </div>
+
+            <div class="p15" style="padding-top: 6px !important;">
+              <table class="params-headers-table f12 w" id="params-table">
+                <thead
+                  style="
+                    background-color: #f5f5f5;
+                    height: 30px;
+                    border-bottom: 1px solid #e0e0e0 !important;
+                  "
+                >
+                  <tr>
+                    <td class="p5" style="width: 30%;">
+                      &nbsp;Key
+                    </td>
+                    <td class="p5" colspan="2">
+                      Value
+                      <a
+                        class="bulk-edit fr mr20 color-main cursor"
+                        crap-data-value="params"
+                      >
+                        批量编辑
+                      </a>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="last">
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control"
+                        data-stage="key"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control"
+                        data-stage="value"
+                      />
+                    </td>
+                    <td class="w20">
+                      <i class="iconfont cursor color-adorn"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div id="customer-div" class="f12 none">
+                <textarea
+                  id="customer-value"
+                  class="form-control w BGFFF h400 min-h150 max-w"
+                  placeholder=""
+                ></textarea>
+              </div>
+
+              <div id="params-bulk-edit-div" class="f12 none">
+                <a
+                  class="key-value-edit fr mr20 color-main cursor"
+                  crap-data-value="params"
+                >
+                  单个编辑
+                </a>
+                <textarea
+                  id="params-bulk"
+                  class="form-control w BGFFF min-h100 max-w"
+                  placeholder="key:value"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <!--参数：end-->
+
+          <!--响应体-->
+          <div class="response-body p10 pb0 pt0 fw-300 none">
+            <div class="btn-group fw-300 f12" role="group">
+              <button
+                type="button"
+                class="response-menu btn btn-default btn-xs fw-300"
+                id="format-row"
+              >
+                原始数据
+              </button>
+              <button
+                type="button"
+                class="response-menu btn btn-default btn-xs fw-300"
+                id="format-pretty"
+              >
+                格式化
+              </button>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;JSON:
+            <div class="btn-group fw-300 f12" role="group">
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                id="json-expand"
+                crap-data-name="expand"
+                crap-data-value="1"
+              >
+                全部展开
+              </button>
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                crap-data-name="collapse"
+                crap-data-value="1"
+              >
+                展开一级
+              </button>
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                crap-data-name="collapse"
+                crap-data-value="2"
+              >
+                展开二级
+              </button>
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                crap-data-name="collapse"
+                crap-data-value="3"
+              >
+                展开三级
+              </button>
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                crap-data-name="collapse"
+                crap-data-value="4"
+              >
+                展开四级
+              </button>
+              <button
+                type="button"
+                class="response-menu response-json btn btn-default btn-xs fw-300"
+                crap-data-name="nl2br"
+                crap-data-value="true"
+              >
+                自动换行
+              </button>
+            </div>
+          </div>
+          <!--响应体:end-->
+          <div class="p10">
+            <div class="response-body none" id="response-body">
+              <!--响应体-->
+              <textarea
+                id="response-row"
+                class="form-control w h BGFFF h400 hidden"
+                placeholder="Hit the Send buttom to get a response"
+              ></textarea>
+              <div id="response-pretty" class="b1 p10 BGFFF h400 ofy-s">
+                <div class="tc mt30 CAAA f16 fw-300">
+                  <span>
+                    请点击「发送」按钮获取响应结果
+                  </span>
+                </div>
+                <div class="tc mt20">
+                  <span class="BGEEE w200 h20 dis-in-blo mr10"></span>
+                  <span class="bg-main w100 h20 dis-in-blo mr10"></span>
+                  <span class="BGEEE w50 h20 dis-in-blo mr10"></span>
+                </div>
+                <div class="tc mt10">
+                  <span class="BGEEE w200 h20 dis-in-blo mr10"></span>
+                  <span class="BGEEE w50 h20 dis-in-blo mr10"></span>
+                </div>
+              </div>
+            </div>
+
+            <!--响应头-->
+            <div class="response-header b1 p10 h400 none BGFFF" id="response-header">
+              <div class="fw-300">请求行（General）:</div>
+              <div class="ml20 general"></div>
+              <div class="fw-300 mt20">请求头（Response Headers）:</div>
+              <div class="ml20 headers"></div>
+            </div>
+
+            <!--cookie-->
+            <div class="response-cookie b1 p10 h400 none BGFFF" id="response-cookie">
+              <table class="table"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="float" class="folat">
+      <div class="tc CFFF f20 fb" id="id-timing"></div>
+      <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+      </div>
+    </div>
+    <div class="tip-div" id="tip-div"></div>
+    <div id="fade" class="folat"></div>
+
+    <div id="dialog" class="look-up shadow">
+      <div id="dialog-title" class="CFFF f16 shadow dialog-title"></div>
+      <div id="dialog-content" class="look-up-content b0 f12 tl p30 BGFFF C555">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>接口名</td>
+              <td>
+                <input
+                  class="form-control"
+                  id="save-interface-name"
+                  placeholder="请输入接口名"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>模块名</td>
+              <td>
+                <span>
+                  保存到已有的模块（已有模块与新模块名二选一）
+                </span>
+                <select class="form-control" id="save-module-id"></select>
+              </td>
+            </tr>
+            <tr>
+              <td>模块名</td>
+              <td>
+                <span>
+                  创建新的模块（已有模块与新模块名二选一）
+                </span>
+                <input
+                  class="form-control"
+                  id="save-module-name"
+                  placeholder="请输入模块名"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          type="button"
+          class="btn btn-main fr"
+          id="save-interface-submit"
+        >
+          保存
+        </button>
+      </div>
+      <i class="iconfont i-close CFFF fb f16 close-dialog" crap-data="dialog">
+        
+      </i>
+    </div>
+    <div id="dialog2" class="look-up shadow">
+      <div
+        class="CFFF f16 shadow"
+        style="
+          line-height: 40px;
+          padding-left: 20px;
+          height: 40px;
+          background-color: #233050;
+        "
+      >
+        重命名模块
+      </div>
+      <div class="look-up-content b0 f12 tl p30 BGFFF C555">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>模块名</td>
+              <td>
+                <input
+                  class="form-control"
+                  id="rename-module-id"
+                  type="hidden"
+                />
+                <input
+                  class="form-control"
+                  id="rename-module-name"
+                  placeholder="请输入模块名"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-main fr" id="save-module-submit">
+          保存
+        </button>
+      </div>
+      <i class="iconfont i-close CFFF fb f16 close-dialog" crap-data="dialog2">
+        
+      </i>
+    </div>
+
+    <script src="src/js/jquery-1.9.1.min.js"></script>
+    <script src="src/js/jquery.jsonview.js"></script>
+    <script src="src/js/jquery-ui.min.js"></script>
+    <script src="src/js/bootstrap3.5min.js"></script>
+
+    <script src="src/js/postman-bootoast.js"></script>
+    <script src="src/js/postman-constant.js"></script>
+    <script src="src/js/postman-base.js"></script>
+    <script src="src/js/postman-interface.js"></script>
+    <script src="src/js/postman-plug.js"></script>
+    <script src="src/js/postman-env.js"></script>
+    <script src="src/js/postman-module.js"></script>
+    <script src="src/js/postman-send.js"></script>
+    <script src="src/js/postman-crapApi.js"></script>
+    <script src="src/js/postman-json.js"></script>
+  </body>
+</html>

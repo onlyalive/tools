@@ -1,5 +1,9 @@
 const arr = [
     {
+        name: 'VS Code快捷键',
+        url: 'vscode.html'
+    },
+    {
         name: 'JSON工具',
         url: 'json.html',
     },
@@ -10,7 +14,11 @@ const arr = [
     {
         name: '图片转Base64',
         url: 'img2base64.html'
-    }
+    },
+    {
+        name: 'Postman测试',
+        url: 'postman.html'
+    },
 ]
 let navHtml = ''
 arr.forEach((el, i) => {
@@ -25,12 +33,12 @@ arr.forEach((el, i) => {
       </div>`
 })
 document.getElementById('navs').innerHTML = navHtml
-changeTab('json.html', 0)
+changeTab('vscode.html', 0)
 function changeTab(url, index) {
     document.querySelectorAll('.active').forEach((el) => {
         el.classList.remove('active')
     })
     document.querySelectorAll('.dropdown')[index].classList.add('active')
-    const html = `<iframe align="center" width="100%" height="100%" src="${url}"  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`
+    const html = `<iframe align="center" width="100%" height="100%" src="${url}"  frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>`
     document.getElementById('page').innerHTML = html
 }
