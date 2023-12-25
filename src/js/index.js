@@ -16,6 +16,10 @@ const arr = [
         url: 'img2base64.html'
     },
     {
+        name: 'Note',
+        url: 'note.html'
+    },
+    {
         name: 'Postman测试',
         url: 'postman.html'
     },
