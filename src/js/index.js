@@ -18,11 +18,7 @@ const arr = [
     {
         name: 'Note',
         url: 'note.html'
-    },
-    {
-        name: 'Postman测试',
-        url: 'postman.html'
-    },
+    }
 ]
 let navHtml = ''
 arr.forEach((el, i) => {
